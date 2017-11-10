@@ -21,7 +21,7 @@ resource "vsphere_virtual_machine" "om" {
 
   disk {
     datastore = "${var.vcenter_ds}"
-    template = "${var.vcenter_template_ops_manager}"
+    template  = "${var.vcenter_template_ops_manager}"
   }
 
   timeouts {
