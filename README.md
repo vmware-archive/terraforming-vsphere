@@ -27,18 +27,18 @@ These vars will be used when you run `terraform  apply`.
 You should fill in the stub values with the correct content.
 
 ```hcl
-vcenter_user=""
-vcenter_password=""
-vcenter_server=""
-vcenter_dc="some-datacenter"
-vcenter_cluster="some-cluster"
-vcenter_rp="some-cluster/some-resource-pool"
-vcenter_ds="some-datastore"
-vcenter_network_ipv4_address="10.0.0.0"
-vcenter_network_ipv4_prefix_length="24"
-vcenter_network="passionfruit"
-vcenter_vms="passionfruit_vms"
-vcenter_templates="passionfruit_templates"
+vcenter_user                       = "some-user"
+vcenter_password                   = "some-password"
+vcenter_server                     = "some-server"
+vcenter_dc                         = "some-datacenter"
+vcenter_cluster                    = "some-cluster"
+vcenter_rp                         = "some-cluster/some-resource-pool"
+vcenter_ds                         = "some-datastore"
+vcenter_network_ipv4_address       ="10.0.0.0"
+vcenter_network_ipv4_prefix_length ="24"
+vcenter_network                    = "some-network"
+vcenter_vms                        = "some-vms-folder"
+vcenter_templates                  = "some-templates-folder"
 ```
 
 ### Var Details
