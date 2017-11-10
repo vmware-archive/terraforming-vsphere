@@ -1,5 +1,5 @@
-resource "vsphere_virtual_machine" "bosh" {
-  name     = "${var.vcenter_network}-bosh"
+resource "vsphere_virtual_machine" "om" {
+  name     = "${var.vcenter_network}-om"
   hostname = "${var.vcenter_network}"
   folder   = "${var.vcenter_vms}"
   vcpu     = 2
