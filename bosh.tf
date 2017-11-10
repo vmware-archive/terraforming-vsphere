@@ -5,6 +5,8 @@ resource "vsphere_virtual_machine" "bosh" {
   vcpu     = 2
   memory   = 4096
 
+  skip_customization = true
+
   datacenter    = "${var.vcenter_dc}"
   cluster       = "${var.vcenter_cluster}"
   resource_pool = "${var.vcenter_rp}"
