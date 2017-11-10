@@ -25,7 +25,7 @@ vcenter_password=""
 vcenter_server=""
 vcenter_dc="some-datacenter"
 vcenter_cluster="some-cluster"
-vcenter_rp="some-resource-pool"
+vcenter_rp="some-cluster/some-resource-pool"
 vcenter_ds="some-datastore"
 vcenter_network_ipv4_address="10.0.0.0"
 vcenter_network_ipv4_prefix_length="24"
@@ -36,8 +36,17 @@ vcenter_templates="passionfruit_templates"
 
 ### Var Details
 - vsphere_user: **(required)** Username for vSphere API operations.
-- vsphere_password: **(required)** Password vSphere API operations.
+- vsphere_password: **(required)** Password for vSphere API operations.
 - vsphere_server: **(required)** vCenter server name for vSphere API operations.
+- vcenter_dc: **(required)** Datacenter for launching vms.
+- vcenter_cluster: **(required)** Cluster for launching vms.
+- vcenter_rp: **(required)** Resource Pool for launching vms. Requires full path.
+- vcenter_ds: **(required)** Datastore for the virtual disks.
+- vcenter_network_ipv4_address: **(required)** Static IPv4 to assign to vm.
+- vcenter_network_ipv4_prefix_length: **(required)** Prefix length to use when statically assigning the address.
+- vcenter_network: **(required)** Label for the network interface.
+- vcenter_vms: **(required)** Folder for launching vms.
+- vcenter_template: **(required)** Folder for vm template.
 
 
 ## Running
