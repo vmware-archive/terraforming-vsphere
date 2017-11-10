@@ -23,4 +23,9 @@ resource "vsphere_virtual_machine" "om" {
     datastore = "${var.vcenter_ds}"
     template = "${var.vcenter_template_ops_manager}"
   }
+
+  timeouts {
+    create = "45m"
+    delete = "45m"
+  }
 }
