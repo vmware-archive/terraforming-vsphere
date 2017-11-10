@@ -10,6 +10,7 @@ brew install terraform
 ```
 
 The vCenter Role must have the following privileges:
+
   0. Datastore
   0. Folder (all)
   0. Network
