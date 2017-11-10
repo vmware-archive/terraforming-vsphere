@@ -16,8 +16,10 @@ variable "vcenter_network_ipv4_address" {}
 
 variable "vcenter_network_ipv4_prefix_length" {}
 
+variable "vcenter_network_ipv4_gateway" {}
+
 variable "vcenter_network" {}
 
 variable "vcenter_vms" {}
 
-variable "vcenter_templates" {}
+variable "vcenter_template_ops_manager" {}

@@ -15,10 +15,11 @@ resource "vsphere_virtual_machine" "bosh" {
     label              = "${var.vcenter_network}"
     ipv4_address       = "${var.vcenter_network_ipv4_address}"
     ipv4_prefix_length = "${var.vcenter_network_ipv4_prefix_length}"
+    ipv4_gateway       = "${var.vcenter_network_ipv4_gateway}"
   }
 
   disk {
     datastore = "${var.vcenter_ds}"
-    template = "${var.vcenter_templates}"
+    template = "${var.vcenter_template_ops_manager}"
   }
 }
