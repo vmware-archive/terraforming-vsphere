@@ -6,6 +6,7 @@ resource "vsphere_virtual_machine" "om" {
   memory   = 4096
 
   skip_customization = true
+  wait_for_guest_net = false
 
   datacenter    = "${var.vcenter_dc}"
   cluster       = "${var.vcenter_cluster}"
