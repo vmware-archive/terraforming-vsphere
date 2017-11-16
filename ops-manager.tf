@@ -24,9 +24,4 @@ resource "vsphere_virtual_machine" "om" {
     template  = "${var.om_template}"
     vmdk      = "${var.om_vmdk}"
   }
-
-  timeouts {
-    create = "45m"
-    delete = "45m"
-  }
 }
