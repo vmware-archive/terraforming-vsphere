@@ -14,14 +14,15 @@ resource "vsphere_virtual_machine" "om" {
 
   network_interface {
     label              = "${var.vcenter_network}"
-    ipv4_address       = "${var.vcenter_network_ipv4_address}"
-    ipv4_prefix_length = "${var.vcenter_network_ipv4_prefix_length}"
-    ipv4_gateway       = "${var.vcenter_network_ipv4_gateway}"
+    ipv4_address       = "${var.om_ipv4_address}"
+    ipv4_prefix_length = "${var.om_ipv4_prefix_length}"
+    ipv4_gateway       = "${var.om_ipv4_gateway}"
   }
 
   disk {
     datastore = "${var.vcenter_ds}"
-    template  = "${var.vcenter_template_ops_manager}"
+    template  = "${var.om_template}"
+    vmdk      = "${var.om_vmdk}"
   }
 
   timeouts {

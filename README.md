@@ -28,18 +28,19 @@ These vars will be used when you run `terraform  apply`.
 You should fill in the stub values with the correct content.
 
 ```hcl
-vcenter_user                       = "some-user"
-vcenter_password                   = "some-password"
-vcenter_server                     = "some-server"
-vcenter_dc                         = "some-datacenter"
-vcenter_cluster                    = "some-cluster"
-vcenter_rp                         = "some-cluster/some-resource-pool"
-vcenter_ds                         = "some-datastore"
-vcenter_network_ipv4_address       = "10.0.0.0"
-vcenter_network_ipv4_prefix_length = "24"
-vcenter_network                    = "some-network"
-vcenter_vms                        = "some-vms-folder"
-vcenter_templates                  = "some-templates-folder"
+vcenter_user          = "some-user"
+vcenter_password      = "some-password"
+vcenter_server        = "some-server"
+vcenter_dc            = "some-datacenter"
+vcenter_cluster       = "some-cluster"
+vcenter_rp            = "some-cluster/some-resource-pool"
+vcenter_ds            = "some-datastore"
+om_ipv4_address       = "10.0.0.0"
+om_ipv4_prefix_length = "24"
+om_ipv4_gateway       = "10.0.0.1"
+vcenter_network       = "some-network"
+vcenter_vms           = "some-vms-folder"
+om_template           = "some-templates-folder"
 ```
 
 ### Var Details
@@ -48,13 +49,19 @@ vcenter_templates                  = "some-templates-folder"
 - vsphere_server: **(required)** vCenter server name for vSphere API operations.
 - vcenter_dc: **(required)** Datacenter for launching vms.
 - vcenter_cluster: **(required)** Cluster for launching vms.
-- vcenter_rp: **(required)** Resource Pool for launching vms. Requires full path.
 - vcenter_ds: **(required)** Datastore for the virtual disks.
-- vcenter_network_ipv4_address: **(required)** Static IPv4 to assign to vm.
-- vcenter_network_ipv4_prefix_length: **(required)** Prefix length to use when statically assigning the address.
+- om_ipv4_address: **(required)** Static IPv4 to assign to vm.
+- om_ipv4_prefix_length: **(required)** Prefix length to use when statically assigning the address.
+- om_ipv4_gateway: **(required)** Gateway IP address to use when statically assigning the address.
 - vcenter_network: **(required)** Label for the network interface.
 - vcenter_vms: **(required)** Folder for launching vms.
-- vcenter_template: **(required)** Folder for vm template.
+
+- vcenter_rp: **(optional)** Resource Pool for launching vms. Requires full path.
+
+- om_template: **(optional)** Folder for Ops Manager vm template.
+- om_vmdk: **(optional)** If not specifying `vcenter_template`, specify path to a vmdk in the `vcenter_ds`.
+
+- allow_unverified_ssl: **(optional)** Defaults to false. Set to true if your vcenter uses self-signed certs.
 
 
 ## Running
