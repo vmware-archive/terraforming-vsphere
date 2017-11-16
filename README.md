@@ -28,6 +28,7 @@ These vars will be used when you run `terraform  apply`.
 You should fill in the stub values with the correct content.
 
 ```hcl
+env_name              = "some-env"
 vcenter_user          = "some-user"
 vcenter_password      = "some-password"
 vcenter_server        = "some-server"
@@ -44,6 +45,7 @@ om_template           = "some-templates-folder"
 ```
 
 ### Var Details
+- env_name: **(required)** Environment name.
 - vsphere_user: **(required)** Username for vSphere API operations.
 - vsphere_password: **(required)** Password for vSphere API operations.
 - vsphere_server: **(required)** vCenter server name for vSphere API operations.

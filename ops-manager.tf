@@ -1,5 +1,5 @@
 resource "vsphere_virtual_machine" "om" {
-  name     = "${var.vcenter_network}-om"
+  name     = "${var.env_name}-om"
   hostname = "${var.vcenter_network}"
   folder   = "${var.vcenter_vms}"
   vcpu     = 2
