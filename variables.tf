@@ -1,3 +1,5 @@
+variable "env_name" {}
+
 variable "vcenter_user" {}
 
 variable "vcenter_password" {}

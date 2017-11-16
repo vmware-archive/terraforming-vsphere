@@ -23,5 +23,6 @@ resource "vsphere_virtual_machine" "om" {
     datastore = "${var.vcenter_ds}"
     template  = "${var.om_template}"
     vmdk      = "${var.om_vmdk}"
+    bootable  = "${var.om_vmdk != ""}"
   }
 }
