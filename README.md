@@ -2,7 +2,7 @@
 
 ### Prerequisites
 
-Your system needs `terraform` v0.10.8 or above:
+Your system needs `terraform`:
 
 ```bash
 brew update
