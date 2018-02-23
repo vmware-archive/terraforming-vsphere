@@ -20,6 +20,18 @@ variable "om_ipv4_prefix_length" {}
 
 variable "om_ipv4_gateway" {}
 
+variable "om_DNS" {}
+
+variable "om_admin_password" {}
+
+variable "om_netmask0" {}
+
+variable "om_ntp_servers" {}
+
+variable "om_custom_hostname" {}
+
+variable "om_gateway" {}
+
 variable "vcenter_network" {}
 
 variable "vcenter_vms" {}

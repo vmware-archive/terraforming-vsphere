@@ -36,9 +36,13 @@ vcenter_dc            = "some-datacenter"
 vcenter_cluster       = "some-cluster"
 vcenter_rp            = "some-cluster/some-resource-pool"
 vcenter_ds            = "some-datastore"
-om_ipv4_address       = "10.0.0.0"
-om_ipv4_prefix_length = "24"
-om_ipv4_gateway       = "10.0.0.1"
+om_ipv4_address       = "x.x.x.x"
+om_netmask0           = "255.x.x.x"
+om_gateway            = "x.x.x.x"
+om_DNS                = "x.x.x.x"
+om_ntp_servers        = "x.x.x.x"
+om_admin_password     = "some-password"
+om_custom_hostname    = "some-hostname"
 vcenter_network       = "some-network"
 vcenter_vms           = "some-vms-folder"
 om_template           = "some-templates-folder"
@@ -52,9 +56,13 @@ om_template           = "some-templates-folder"
 - vcenter_dc: **(required)** Datacenter for launching vms.
 - vcenter_cluster: **(required)** Cluster for launching vms.
 - vcenter_ds: **(required)** Datastore for the virtual disks.
-- om_ipv4_address: **(required)** Static IPv4 to assign to vm.
-- om_ipv4_prefix_length: **(required)** Prefix length to use when statically assigning the address.
-- om_ipv4_gateway: **(required)** Gateway IP address to use when statically assigning the address.
+- om_ipv4_address: **(optional)** OpsMgr static IPv4 address. Leave unset if DHCP is desired.
+- om_netmask0: **(optional)** OpsMgr netmask. Leave unset if DHCP is desired.
+- om_gateway: **(optional)** OpsMgr gateway. Leave unset if DHCP is desired.
+- om_DNS: **(optional)** OpsMgr DNS Servers, comma separated. Leave unset if DHCP is desired.
+- om_ntp_servers: **(required)** OpsMgr NTP Servers, comma separated.
+- om_admin_password: **(required)** OpsMgr VM password. The username is 'ubuntu'.
+- om_custom_hostname: **(optional)** OpsMgr Hostname. Default is 'pivotal-ops-manager'.
 - vcenter_network: **(required)** Label for the network interface.
 - vcenter_vms: **(required)** Folder for launching vms.
 
