@@ -48,5 +48,12 @@ resource "vsphere_virtual_machine" "vm" {
   clone {
     template_uuid = "${data.vsphere_virtual_machine.om_template.id}"
   }
+
+  vapp {
+    properties {
+      ip0 = "${var.om_ipv4_address}"
+      gateway = "${var.om_ipv4_gateway}"
+    }
+  }
 }
 
