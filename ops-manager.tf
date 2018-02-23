@@ -1,28 +1,52 @@
-resource "vsphere_virtual_machine" "om" {
-  name     = "${var.env_name}-om"
-  hostname = "${var.vcenter_network}"
-  folder   = "${var.vcenter_vms}"
-  vcpu     = 2
-  memory   = 4096
+data "vsphere_datacenter" "dc" {
+  name = "${var.vcenter_dc}"
+}
 
-  skip_customization = true
-  wait_for_guest_net = false
+data "vsphere_datastore" "ds" {
+  name          = "${var.vcenter_ds}"
+  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+}
 
-  datacenter    = "${var.vcenter_dc}"
-  cluster       = "${var.vcenter_cluster}"
-  resource_pool = "${var.vcenter_rp}"
+data "vsphere_resource_pool" "pool" {
+  name          = "${var.vcenter_rp}"
+  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+}
+
+data "vsphere_network" "network" {
+  name          = "${var.vcenter_network}"
+  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+}
+
+data "vsphere_virtual_machine" "om_template" {
+  name          = "${var.om_template}"
+  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+}
+
+resource "vsphere_virtual_machine" "vm" {
+  name             = "${var.env_name}-om"
+  resource_pool_id = "${data.vsphere_resource_pool.pool.id}"
+  datastore_id     = "${data.vsphere_datastore.ds.id}"
+
+  num_cpus         = 2
+  memory           = 4096
+  guest_id         = "${data.vsphere_virtual_machine.om_template.guest_id}"
+  folder           = "${var.vcenter_vms}"
+
+  wait_for_guest_net_timeout = -1
 
   network_interface {
-    label              = "${var.vcenter_network}"
-    ipv4_address       = "${var.om_ipv4_address}"
-    ipv4_prefix_length = "${var.om_ipv4_prefix_length}"
-    ipv4_gateway       = "${var.om_ipv4_gateway}"
+    network_id   = "${data.vsphere_network.network.id}"
+    adapter_type = "${data.vsphere_virtual_machine.om_template.network_interface_types[0]}"
   }
 
   disk {
-    datastore = "${var.vcenter_ds}"
-    template  = "${var.om_template}"
-    vmdk      = "${var.om_vmdk}"
-    bootable  = "${var.om_vmdk != ""}"
+    label = "disk0"
+    size  = "${data.vsphere_virtual_machine.om_template.disks.0.size}"
+    datastore_id = "${data.vsphere_datastore.ds.id}"
+  }
+
+  clone {
+    template_uuid = "${data.vsphere_virtual_machine.om_template.id}"
   }
 }
+
