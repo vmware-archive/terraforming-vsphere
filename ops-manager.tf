@@ -53,6 +53,12 @@ resource "vsphere_virtual_machine" "vm" {
     properties {
       ip0 = "${var.om_ipv4_address}"
       gateway = "${var.om_ipv4_gateway}"
+      netmask0 = "${var.om_netmask0}"
+      gateway = "${var.om_gateway}"
+      DNS = "${var.om_DNS}"
+      ntp_servers = "${var.om_ntp_servers}"
+      admin_password = "${var.om_admin_password}"
+      custom_hostname = "${var.om_custom_hostname}"
     }
   }
 }
