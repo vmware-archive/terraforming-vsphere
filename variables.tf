@@ -10,25 +10,35 @@ variable "vcenter_dc" {}
 
 variable "vcenter_cluster" {}
 
-variable "vcenter_rp" {}
+variable "vcenter_rp" {
+  default = ""
+}
 
 variable "vcenter_ds" {}
 
-variable "om_ipv4_address" {}
+variable "om_ipv4_address" {
+  default = ""
+}
 
-variable "om_ipv4_prefix_length" {}
-
-variable "om_DNS" {}
+variable "om_DNS" {
+  default = ""
+}
 
 variable "om_admin_password" {}
 
-variable "om_netmask0" {}
+variable "om_netmask0" {
+  default = ""
+}
 
 variable "om_ntp_servers" {}
 
-variable "om_custom_hostname" {}
+variable "om_custom_hostname" {
+  default = ""
+}
 
-variable "om_gateway" {}
+variable "om_gateway" {
+  default = ""
+}
 
 variable "vcenter_network" {}
 
