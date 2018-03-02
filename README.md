@@ -68,7 +68,7 @@ om_template           = "some-templates-folder"
 
 - vcenter_rp: **(optional)** Resource Pool for launching vms.
 
-- om_template: **(optional)** Folder for Ops Manager vm template.
+- om_template: **(optional)** Ops Manager vm template.
 - om_vmdk: **(optional)** If not specifying `vcenter_template`, specify path to a vmdk in the `vcenter_ds`.
 
 - allow_unverified_ssl: **(optional)** Defaults to false. Set to true if your vcenter uses self-signed certs.
