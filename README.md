@@ -66,7 +66,7 @@ om_template           = "some-templates-folder"
 - vcenter_network: **(required)** Label for the network interface.
 - vcenter_vms: **(required)** Folder for launching vms.
 
-- vcenter_rp: **(optional)** Resource Pool for launching vms. Requires full path.
+- vcenter_rp: **(optional)** Resource Pool for launching vms.
 
 - om_template: **(optional)** Folder for Ops Manager vm template.
 - om_vmdk: **(optional)** If not specifying `vcenter_template`, specify path to a vmdk in the `vcenter_ds`.
