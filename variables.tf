@@ -18,8 +18,6 @@ variable "om_ipv4_address" {}
 
 variable "om_ipv4_prefix_length" {}
 
-variable "om_ipv4_gateway" {}
-
 variable "om_DNS" {}
 
 variable "om_admin_password" {}

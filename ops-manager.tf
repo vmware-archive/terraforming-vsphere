@@ -52,7 +52,7 @@ resource "vsphere_virtual_machine" "vm" {
   vapp {
     properties {
       ip0 = "${var.om_ipv4_address}"
-      gateway = "${var.om_ipv4_gateway}"
+      gateway = "${var.om_gateway}"
       netmask0 = "${var.om_netmask0}"
       gateway = "${var.om_gateway}"
       DNS = "${var.om_DNS}"
