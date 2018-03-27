@@ -28,7 +28,7 @@ resource "vsphere_virtual_machine" "vm" {
   datastore_id     = "${data.vsphere_datastore.ds.id}"
 
   num_cpus         = 2
-  memory           = 4096
+  memory           = 8192
   guest_id         = "${data.vsphere_virtual_machine.om_template.guest_id}"
   folder           = "${var.vcenter_vms}"
 
