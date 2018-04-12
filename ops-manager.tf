@@ -30,7 +30,7 @@ resource "vsphere_virtual_machine" "vm" {
   wait_for_guest_net_timeout = -1
 
   network_interface {
-    network_id   = "${resource.nsxt_logical_switch.mgmt-switch.id}"
+    network_id   = "${nsxt_logical_switch.mgmt-switch.id}"
     adapter_type = "${data.vsphere_virtual_machine.om_template.network_interface_types[0]}"
   }
 
