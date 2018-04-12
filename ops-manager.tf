@@ -12,6 +12,12 @@ data "vsphere_resource_pool" "pool" {
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
 }
 
+data "vsphere_network" "mgmt-switch" {
+  name          = "${nsxt_logical_switch.mgmt-switch.display_name}"
+  datacenter_id = "${data.vsphere_datacenter.dc.id}"
+  depends_on = ["nsxt_logical_switch.mgmt-switch"]
+}
+
 data "vsphere_virtual_machine" "om_template" {
   name          = "${var.om_template}"
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
@@ -30,7 +36,7 @@ resource "vsphere_virtual_machine" "vm" {
   wait_for_guest_net_timeout = -1
 
   network_interface {
-    network_id   = "${nsxt_logical_switch.mgmt-switch.id}"
+    network_id   = "${data.vsphere_network.mgmt-switch.id}"
     adapter_type = "${data.vsphere_virtual_machine.om_template.network_interface_types[0]}"
   }
 
