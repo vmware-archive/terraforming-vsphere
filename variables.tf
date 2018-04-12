@@ -16,6 +16,18 @@ variable "vcenter_rp" {
 
 variable "vcenter_ds" {}
 
+variable "nsx_server" {}
+
+variable "nsx_user" {}
+
+variable "nsx_password" {}
+
+variable "nsx_t0_router" {}
+
+variable "nsx_edge_cluster" {}
+
+variable "nsx_transport_zone" {}
+
 variable "om_ipv4_address" {
   default = ""
 }
