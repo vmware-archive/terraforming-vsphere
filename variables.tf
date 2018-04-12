@@ -52,8 +52,6 @@ variable "om_gateway" {
   default = ""
 }
 
-variable "vcenter_network" {}
-
 variable "vcenter_vms" {}
 
 variable "om_template" {
