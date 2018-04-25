@@ -11,7 +11,7 @@ data "nsxt_edge_cluster" "edge_cluster" {
 }
 
 resource "nsxt_logical_tier1_router" "t1_router" {
-  display_name = "${var.env_name}Tier1"
+  display_name    = "${var.env_name}Tier1"
   edge_cluster_id = "${data.nsxt_edge_cluster.edge_cluster.id}"
 
   failover_mode               = "PREEMPTIVE"
@@ -22,49 +22,49 @@ resource "nsxt_logical_tier1_router" "t1_router" {
 
   tag {
     scope = "ncp/cluster"
-    tag = "${var.env_name}"
+    tag   = "${var.env_name}"
   }
 }
 
 resource "nsxt_logical_router_link_port_on_tier0" "link_port_t0" {
-  display_name = "${var.env_name}_T0_PORT1"
+  display_name      = "${var.env_name}_T0_PORT1"
   logical_router_id = "${data.nsxt_logical_tier0_router.t0_router.id}"
 
   tag {
     scope = "ncp/cluster"
-    tag = "${var.env_name}"
+    tag   = "${var.env_name}"
   }
 }
 
 resource "nsxt_logical_router_link_port_on_tier1" "link_port_t1" {
-  display_name = "${var.env_name}_T1_PORT1"
-  logical_router_id = "${nsxt_logical_tier1_router.t1_router.id}"
+  display_name                  = "${var.env_name}_T1_PORT1"
+  logical_router_id             = "${nsxt_logical_tier1_router.t1_router.id}"
   linked_logical_router_port_id = "${nsxt_logical_router_link_port_on_tier0.link_port_t0.id}"
 
   tag {
     scope = "ncp/cluster"
-    tag = "${var.env_name}"
+    tag   = "${var.env_name}"
   }
 }
 
 resource "nsxt_logical_switch" "mgmt-switch" {
-  admin_state = "UP"
-  display_name = "${var.env_name}-mgmt-ls"
+  admin_state       = "UP"
+  display_name      = "${var.env_name}-mgmt-ls"
   transport_zone_id = "${data.nsxt_transport_zone.overlay_tz.id}"
 
   tag {
     scope = "ncp/cluster"
-    tag = "${var.env_name}"
+    tag   = "${var.env_name}"
   }
 }
 
 resource "nsxt_logical_switch" "pas-switch" {
-  admin_state = "UP"
-  display_name = "${var.env_name}-pas-ls"
+  admin_state       = "UP"
+  display_name      = "${var.env_name}-pas-ls"
   transport_zone_id = "${data.nsxt_transport_zone.overlay_tz.id}"
 
   tag {
     scope = "ncp/cluster"
-    tag = "${var.env_name}"
+    tag   = "${var.env_name}"
   }
 }

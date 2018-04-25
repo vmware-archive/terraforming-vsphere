@@ -39,7 +39,7 @@ vcenter_ds            = "some-datastore"
 om_ipv4_address       = "x.x.x.x"
 om_netmask0           = "255.x.x.x"
 om_gateway            = "x.x.x.x"
-om_DNS                = "x.x.x.x"
+om_dns                = "x.x.x.x"
 om_ntp_servers        = "x.x.x.x"
 om_admin_password     = "some-password"
 om_custom_hostname    = "some-hostname"
@@ -59,7 +59,7 @@ om_template           = "some-templates-folder"
 - om_ipv4_address: **(optional)** OpsMgr static IPv4 address. Leave unset if DHCP is desired.
 - om_netmask0: **(optional)** OpsMgr netmask. Leave unset if DHCP is desired.
 - om_gateway: **(optional)** OpsMgr gateway. Leave unset if DHCP is desired.
-- om_DNS: **(optional)** OpsMgr DNS Servers, comma separated. Leave unset if DHCP is desired.
+- om_dns: **(optional)** OpsMgr dns Servers, comma separated. Leave unset if DHCP is desired.
 - om_ntp_servers: **(required)** OpsMgr NTP Servers, comma separated.
 - om_admin_password: **(required)** OpsMgr VM password. The username is 'ubuntu'.
 - om_custom_hostname: **(optional)** OpsMgr Hostname. Default is 'pivotal-ops-manager'.
@@ -68,7 +68,7 @@ om_template           = "some-templates-folder"
 
 - vcenter_rp: **(optional)** Resource Pool for launching vms.
 
-- om_template: **(optional)** Ops Manager vm template.
+- om_template: **(optional)** Full path to the Ops Manager vm template.
 - om_vmdk: **(optional)** If not specifying `vcenter_template`, specify path to a vmdk in the `vcenter_ds`.
 
 - allow_unverified_ssl: **(optional)** Defaults to false. Set to true if your vcenter uses self-signed certs.

@@ -32,7 +32,7 @@ variable "om_ipv4_address" {
   default = ""
 }
 
-variable "om_DNS" {
+variable "om_dns" {
   default = ""
 }
 
@@ -55,7 +55,8 @@ variable "om_gateway" {
 variable "vcenter_vms" {}
 
 variable "om_template" {
-  default = ""
+  default     = ""
+  description = "Full path to the Ops Manager template. Include folder name and file name."
 }
 
 variable "om_vmdk" {
