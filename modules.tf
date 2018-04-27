@@ -15,4 +15,6 @@ module "nsxt" {
   nsxt_transport_zone    = "${var.nsxt_transport_zone}"
   nsxt_edge_cluster      = "${var.nsxt_edge_cluster}"
   nsxt_t0_router         = "${var.nsxt_t0_router}"
+
+  om_ipv4_address = "${var.om_ipv4_address}"
 }

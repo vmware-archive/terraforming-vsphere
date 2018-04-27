@@ -64,3 +64,8 @@ variable "nsxt_t0_router" {
   description = "The name of the logical tier 0 router."
   type        = "string"
 }
+
+variable "om_ipv4_address" {
+  default = ""
+  type    = "string"
+}

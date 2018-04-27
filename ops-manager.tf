@@ -13,7 +13,7 @@ data "vsphere_resource_pool" "pool" {
 }
 
 data "vsphere_network" "network" {
-  name          = "${var.vcenter_network}"
+  name          = "${var.nsxt ? module.nsxt.infrastructure-network : var.vcenter_network}"
   datacenter_id = "${data.vsphere_datacenter.dc.id}"
 }
 
@@ -51,7 +51,7 @@ resource "vsphere_virtual_machine" "vm" {
 
   vapp {
     properties {
-      ip0             = "${var.om_ipv4_address}"
+      ip0             = "${var.nsxt ? 10.0.1.10 : var.om_ipv4_address}"
       gateway         = "${var.om_gateway}"
       netmask0        = "${var.om_netmask0}"
       gateway         = "${var.om_gateway}"

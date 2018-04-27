@@ -47,8 +47,8 @@ resource "nsxt_nat_rule" "dnat-om-bosh" {
   logging           = false
   nat_pass          = true
 
-  match_destination_network = "10.85.22.13"
-  translated_network        = "192.168.1.10"
+  match_destination_network = "${var.om_ipv4_address}"
+  translated_network        = "10.0.1.10"
 
   tag {
     scope = "ncp/cluster"
@@ -58,19 +58,18 @@ resource "nsxt_nat_rule" "dnat-om-bosh" {
   count = "${var.count}"
 }
 
-### T0 source network address translation rule to facilitate communication between Ops Manager and BOSH Director.
-resource "nsxt_nat_rule" "snat-om-bosh" {
-  display_name = "${var.env_name}-snat-om-bosh"
-  action       = "SNAT"
+resource "nsxt_nat_rule" "dnat-pas" {
+  display_name = "${var.env_name}-dnat-pas"
+  action       = "DNAT"
 
   logical_router_id = "${data.nsxt_logical_tier0_router.rtr0.id}"
-  description       = "SNAT Rule for facilitating communication between Ops Manager and BOSH Director. Provisioned by Terraform."
+  description       = "DNAT Rule for facilitating communication to PAS. Provisioned by Terraform."
   enabled           = true
   logging           = false
   nat_pass          = true
 
-  match_source_network = "192.168.1.0/24"
-  translated_network   = "10.85.22.13"
+  match_destination_network = "10.85.106.97"
+  translated_network        = "10.0.2.2"
 
   tag {
     scope = "ncp/cluster"
@@ -79,6 +78,115 @@ resource "nsxt_nat_rule" "snat-om-bosh" {
 
   count = "${var.count}"
 }
+
+### T0 source network address translation rule to facilitate communication to Ops Manager.
+resource "nsxt_nat_rule" "snat-om" {
+  display_name = "${var.env_name}-snat-om"
+  action       = "SNAT"
+
+  logical_router_id = "${data.nsxt_logical_tier0_router.rtr0.id}"
+  description       = "SNAT Rule for facilitating communication to Ops Manager. Provisioned by Terraform."
+  enabled           = true
+  logging           = false
+  nat_pass          = true
+
+  match_source_network = "10.0.1.10"
+  translated_network   = "${var.om_ipv4_address}"
+
+  tag {
+    scope = "ncp/cluster"
+    tag   = "${var.env_name}"
+  }
+
+  count = "${var.count}"
+}
+
+### T0 source network address translation rule to facilitate communication within Infrastructure network.
+resource "nsxt_nat_rule" "snat-infrastructure" {
+  display_name = "${var.env_name}-snat-infrastructure"
+  action       = "SNAT"
+
+  logical_router_id = "${data.nsxt_logical_tier0_router.rtr0.id}"
+  description       = "SNAT Rule for facilitating communication within Infrastructure network. Provisioned by Terraform."
+  enabled           = true
+  logging           = false
+  nat_pass          = true
+
+  match_source_network = "10.0.1.0/24"
+  translated_network   = "10.85.106.98"
+
+  tag {
+    scope = "ncp/cluster"
+    tag   = "${var.env_name}"
+  }
+
+  count = "${var.count}"
+}
+
+### T0 source network address translation rule to facilitate communication within Infrastructure network.
+resource "nsxt_nat_rule" "snat-infrastructure-2" {
+  display_name = "${var.env_name}-snat-infrastructure-2"
+  action       = "SNAT"
+
+  logical_router_id = "${data.nsxt_logical_tier0_router.rtr0.id}"
+  description       = "SNAT Rule for facilitating communication within Infrastructure network. Provisioned by Terraform."
+  enabled           = true
+  logging           = false
+  nat_pass          = true
+
+  match_source_network = "10.0.2.0/24"
+  translated_network   = "10.85.106.98"
+
+  tag {
+    scope = "ncp/cluster"
+    tag   = "${var.env_name}"
+  }
+
+  count = "${var.count}"
+}
+
+resource "nsxt_nat_rule" "snat-router" {
+  display_name = "${var.env_name}-snat-router"
+  action       = "SNAT"
+
+  logical_router_id = "${data.nsxt_logical_tier0_router.rtr0.id}"
+  description       = "SNAT Rule for facilitating communication to the Infrastructure network router. Provisioned by Terraform."
+  enabled           = true
+  logging           = false
+  nat_pass          = true
+
+  match_source_network = "10.0.2.2"
+  translated_network   = "10.85.106.97"
+
+  tag {
+    scope = "ncp/cluster"
+    tag   = "${var.env_name}"
+  }
+
+  count = "${var.count}"
+}
+
+# TODO: need a service LS and a corresponding DNAT rule
+# resource "nsxt_nat_rule" "snat-service" {
+#   display_name = "${var.env_name}-snat-service"
+#   action       = "SNAT"
+
+#   logical_router_id = "${data.nsxt_logical_tier0_router.rtr0.id}"
+#   description       = "SNAT Rule for facilitating communication to the Service network. Provisioned by Terraform."
+#   enabled           = true
+#   logging           = false
+#   nat_pass          = true
+
+#   match_source_network = "10.12.0.0/24"
+#   translated_network   = "10.85.106.100"
+
+#   tag {
+#     scope = "ncp/cluster"
+#     tag   = "${var.env_name}"
+#   }
+
+#   count = "${var.count}"
+# }
 
 ### Infrastructure Resources
 
@@ -98,6 +206,25 @@ resource "nsxt_logical_switch" "infrastructure-ls" {
   }
 
   count = "${var.count}"
+}
+
+#### The logical port for the infrastructure network.
+resource "nsxt_logical_port" "infrastructure-lp" {
+  display_name = "${var.env_name}-infrastructure-lp"
+
+  admin_state       = "UP"
+  description       = "Infrastructure Logical Port provisioned by Terraform"
+  logical_switch_id = "${nsxt_logical_switch.infrastructure-ls.id}"
+}
+
+#### The downlink port connecting the infrastructure logical port to the tier1 router.
+resource "nsxt_logical_router_downlink_port" "infrastructure-dp" {
+  display_name = "${var.env_name}-infrastructure-dp"
+
+  description                   = "Infrastructure downlink port provisioned by Terraform"
+  logical_router_id             = "${nsxt_logical_tier1_router.infrastructure-t1.id}"
+  linked_logical_switch_port_id = "${nsxt_logical_port.infrastructure-lp.id}"
+  ip_address                    = "10.0.1.1/24"
 }
 
 ### The tier1 router for PAS to connect from the tier0 router for the Infrastructure network.
