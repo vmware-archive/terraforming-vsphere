@@ -1,5 +1,20 @@
 # Terraforming vSphere
 
+Please note that the master branch is generally *unstable*.
+If you are looking for something "tested", please consume one
+of our [releases](https://github.com/pivotal-cf/terraforming-vsphere/releases).
+
+## What Does This Do?
+
+You will get a booted ops-manager VM plus some networking.
+
+## Looking to setup a different IAAS?
+
+- [aws](https://github.com/pivotal-cf/terraforming-aws)
+- [azure](https://github.com/pivotal-cf/terraforming-azure)
+- [gcp](https://github.com/pivotal-cf/terraforming-gcp)
+- [openstack](https://github.com/pivotal-cf/terraforming-openstack)
+
 ### Prerequisites
 
 Your system needs `terraform`:
@@ -11,13 +26,13 @@ brew install terraform
 
 The vCenter Role must have the following privileges:
 
-  0. Datastore
-  0. Folder (all)
-  0. Network
-  0. Resource
-  0. Virtual Machine
-  0. vCenter Inventory Service
-  0. License
+  1. Datastore
+  1. Folder (all)
+  1. Network
+  1. Resource
+  1. Virtual Machine
+  1. vCenter Inventory Service
+  1. License
 
 Refer to [vSphere Terraform Provider documentation](https://www.terraform.io/docs/providers/vsphere/index.html).
 
@@ -44,7 +59,7 @@ om_ntp_servers        = "x.x.x.x"
 om_admin_password     = "some-password"
 om_custom_hostname    = "some-hostname"
 vcenter_network       = "some-network"
-vcenter_vms           = "some-vms-folder"
+vcenter_vms           = "some-parent-folder/some-vms-folder"
 om_template           = "some-templates-folder"
 ```
 
