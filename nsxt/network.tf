@@ -215,6 +215,8 @@ resource "nsxt_logical_port" "infrastructure-lp" {
   admin_state       = "UP"
   description       = "Infrastructure Logical Port provisioned by Terraform"
   logical_switch_id = "${nsxt_logical_switch.infrastructure-ls.id}"
+
+  count = "${var.count}"
 }
 
 #### The downlink port connecting the infrastructure logical port to the tier1 router.
@@ -225,6 +227,8 @@ resource "nsxt_logical_router_downlink_port" "infrastructure-dp" {
   logical_router_id             = "${nsxt_logical_tier1_router.infrastructure-t1.id}"
   linked_logical_switch_port_id = "${nsxt_logical_port.infrastructure-lp.id}"
   ip_address                    = "10.0.1.1/24"
+
+  count = "${var.count}"
 }
 
 ### The tier1 router for PAS to connect from the tier0 router for the Infrastructure network.

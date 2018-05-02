@@ -47,7 +47,8 @@ variable "om_DNS" {
 }
 
 variable "om_admin_password" {
-  type = "string"
+  default = "admin"
+  type    = "string"
 }
 
 variable "om_netmask0" {
@@ -56,7 +57,8 @@ variable "om_netmask0" {
 }
 
 variable "om_ntp_servers" {
-  type = "string"
+  default = "time.nist.gov"
+  type    = "string"
 }
 
 variable "om_custom_hostname" {
