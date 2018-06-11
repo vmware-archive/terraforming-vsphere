@@ -38,6 +38,7 @@ variable "vcenter_ds" {
 
 variable "om_ipv4_address" {
   default = ""
+  description = "opsman's IP from the outside. If using NSX-T, OM will see it's own IP as 10.0.1.10"
   type    = "string"
 }
 

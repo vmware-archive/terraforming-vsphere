@@ -73,7 +73,14 @@ variable "nsxt_t0_router" {
   type        = "string"
 }
 
+variable "nsxt_subnet_cidr" {
+  default     = ""
+  description = "CIDR describing the range of IPs available to our network on the T0 router"
+  type        = "string"
+}
+
 variable "om_ipv4_address" {
-  default = ""
-  type    = "string"
+  default     = ""
+  description = "opsman's IP from the outside. If using NSX-T, OM will see it's own IP as 10.0.1.10"
+  type        = "string"
 }

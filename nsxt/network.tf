@@ -68,7 +68,7 @@ resource "nsxt_nat_rule" "dnat-pas" {
   logging           = false
   nat_pass          = true
 
-  match_destination_network = "10.85.106.97"
+  match_destination_network = "${cidrhost(var.nsxt_subnet_cidr, 1)}"
   translated_network        = "10.0.2.2"
 
   tag {
@@ -113,7 +113,7 @@ resource "nsxt_nat_rule" "snat-infrastructure" {
   nat_pass          = true
 
   match_source_network = "10.0.1.0/24"
-  translated_network   = "10.85.106.98"
+  translated_network   = "${cidrhost(var.nsxt_subnet_cidr, 2)}"
 
   tag {
     scope = "ncp/cluster"
@@ -124,8 +124,8 @@ resource "nsxt_nat_rule" "snat-infrastructure" {
 }
 
 ### T0 source network address translation rule to facilitate communication within Infrastructure network.
-resource "nsxt_nat_rule" "snat-infrastructure-2" {
-  display_name = "${var.env_name}-snat-infrastructure-2"
+resource "nsxt_nat_rule" "snat-deployment" {
+  display_name = "${var.env_name}-snat-deployment"
   action       = "SNAT"
 
   logical_router_id = "${data.nsxt_logical_tier0_router.rtr0.id}"
@@ -135,7 +135,7 @@ resource "nsxt_nat_rule" "snat-infrastructure-2" {
   nat_pass          = true
 
   match_source_network = "10.0.2.0/24"
-  translated_network   = "10.85.106.98"
+  translated_network   = "${cidrhost(var.nsxt_subnet_cidr, 2)}"
 
   tag {
     scope = "ncp/cluster"
@@ -156,7 +156,7 @@ resource "nsxt_nat_rule" "snat-router" {
   nat_pass          = true
 
   match_source_network = "10.0.2.2"
-  translated_network   = "10.85.106.97"
+  translated_network   = "${cidrhost(var.nsxt_subnet_cidr, 1)}"
 
   tag {
     scope = "ncp/cluster"
