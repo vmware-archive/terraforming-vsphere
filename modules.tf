@@ -7,6 +7,8 @@ module "nsxt" {
   allow_unverified_ssl = "${var.allow_unverified_ssl}"
   vcenter_dc           = "${var.vcenter_dc}"
   vcenter_server       = "${var.vcenter_server}"
+  vcenter_user         = "${var.vcenter_user}"
+  vcenter_password     = "${var.vcenter_password}"
 
   nsxt_host              = "${var.nsxt_host}"
   nsxt_username          = "${var.nsxt_username}"

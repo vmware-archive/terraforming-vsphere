@@ -1,3 +1,11 @@
+variable "vcenter_user" {
+  type = "string"
+}
+
+variable "vcenter_password" {
+  type = "string"
+}
+
 variable "count" {
   type = "string"
 }
