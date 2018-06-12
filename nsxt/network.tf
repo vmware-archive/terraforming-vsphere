@@ -1,4 +1,4 @@
-data "nsxt_transport_zone" "transport_zone" {
+data "nsxt_transport_zone" "transport-zone" {
   display_name = "${var.nsxt_transport_zone}"
 
   count = "${var.count}"
@@ -10,7 +10,7 @@ data "nsxt_logical_tier0_router" "rtr0" {
   count = "${var.count}"
 }
 
-data "nsxt_edge_cluster" "edge_cluster" {
+data "nsxt_edge_cluster" "edge-cluster" {
   display_name = "${var.nsxt_edge_cluster}"
 
   count = "${var.count}"
@@ -30,7 +30,7 @@ data "vsphere_network" "network" {
 }
 
 ### The switching profile with type Spoof Guard.
-data "nsxt_switching_profile" "switching_profile" {
+data "nsxt_switching_profile" "switching-profile" {
   display_name = "${var.nsxt_switching_profile}"
 
   count = "${var.count}"
@@ -194,7 +194,7 @@ resource "nsxt_nat_rule" "snat-router" {
 resource "nsxt_logical_switch" "infrastructure-ls" {
   display_name = "${var.env_name}-infrastructure-ls"
 
-  transport_zone_id = "${data.nsxt_transport_zone.transport_zone.id}"
+  transport_zone_id = "${data.nsxt_transport_zone.transport-zone.id}"
   admin_state       = "UP"
 
   description      = "Infrastructure Logical Switch provisioned by Terraform"
@@ -260,7 +260,7 @@ resource "nsxt_logical_tier1_router" "infrastructure-t1" {
 
   description     = "Infrastructure Tier 1 Router provisioned by Terraform"
   failover_mode   = "PREEMPTIVE"
-  edge_cluster_id = "${data.nsxt_edge_cluster.edge_cluster.id}"
+  edge_cluster_id = "${data.nsxt_edge_cluster.edge-cluster.id}"
 
   enable_router_advertisement = true
   advertise_connected_routes  = true
@@ -308,7 +308,7 @@ resource "nsxt_logical_router_link_port_on_tier1" "infrastructure-t1-to-t0" {
 resource "nsxt_logical_switch" "deployment-ls" {
   display_name = "${var.env_name}-deployment-ls"
 
-  transport_zone_id = "${data.nsxt_transport_zone.transport_zone.id}"
+  transport_zone_id = "${data.nsxt_transport_zone.transport-zone.id}"
   admin_state       = "UP"
 
   description      = "Deployment Logical Switch provisioned by Terraform"
@@ -328,7 +328,7 @@ resource "nsxt_logical_tier1_router" "deployment-t1" {
 
   description     = "Deployment Tier 1 Router. Provisioned by Terraform."
   failover_mode   = "PREEMPTIVE"
-  edge_cluster_id = "${data.nsxt_edge_cluster.edge_cluster.id}"
+  edge_cluster_id = "${data.nsxt_edge_cluster.edge-cluster.id}"
 
   enable_router_advertisement = true
   advertise_connected_routes  = true
