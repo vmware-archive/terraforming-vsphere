@@ -322,6 +322,29 @@ resource "nsxt_logical_switch" "deployment-ls" {
   count = "${var.count}"
 }
 
+#### The logical port for the deployment network.
+resource "nsxt_logical_port" "deployment-lp" {
+  display_name = "${var.env_name}-deployment-lp"
+
+  admin_state       = "UP"
+  description       = "Deployment Logical Port provisioned by Terraform"
+  logical_switch_id = "${nsxt_logical_switch.deployment-ls.id}"
+
+  count = "${var.count}"
+}
+
+#### The downlink port connecting the deployment logical port to the tier1 router.
+resource "nsxt_logical_router_downlink_port" "deployment-dp" {
+  display_name = "${var.env_name}-deployment-dp"
+
+  description                   = "Deployment downlink port provisioned by Terraform"
+  logical_router_id             = "${nsxt_logical_tier1_router.deployment-t1.id}"
+  linked_logical_switch_port_id = "${nsxt_logical_port.deployment-lp.id}"
+  ip_address                    = "10.0.2.1/24"
+
+  count = "${var.count}"
+}
+
 ### The tier1 router for PAS to connect from the tier0 router for the Deployment network.
 resource "nsxt_logical_tier1_router" "deployment-t1" {
   display_name = "${var.env_name}-deployment-t1"
