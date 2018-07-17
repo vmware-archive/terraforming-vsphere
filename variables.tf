@@ -52,7 +52,7 @@ variable "om_admin_password" {
   type    = "string"
 }
 
-variable "om_netmask0" {
+variable "subnet_cidr" {
   default = ""
   type    = "string"
 }
@@ -72,12 +72,28 @@ variable "om_gateway" {
   type    = "string"
 }
 
+variable "subnet_reserved_ips" {
+  default     = ""
+  type        = "string"
+  description = "BOSH will not assign IP addresses in this range. If not specified, the first 10 IPs of subnet_cidr will be marked as reserved, e.g. 10.0.0.0-10.0.0.10"
+}
+
 variable "vcenter_vms" {
   default = ""
   type    = "string"
 }
 
+variable "vcenter_templates" {
+  default = ""
+  type    = "string"
+}
+
 variable "om_template" {
+  default = ""
+  type    = "string"
+}
+
+variable "om_disks" {
   default = ""
   type    = "string"
 }
@@ -90,6 +106,36 @@ variable "om_vmdk" {
 variable "allow_unverified_ssl" {
   default = false
   type    = "string"
+}
+
+variable "haproxy_static_ip" {
+  default     = ""
+  type        = "string"
+  description = "Passthrough value to allow assigning a static IP to your HAProxy VM in a subsequent PAS deployment"
+}
+
+variable "tcp_router_static_ip" {
+  default     = ""
+  type        = "string"
+  description = "Passthrough value to allow assigning a static IP to your TCP Router VM in a subsequent PAS deployment"
+}
+
+variable "sys_domain" {
+  default     = ""
+  type        = "string"
+  description = "Passthrough value to used to configure the system domain in a subsequent PAS deployment"
+}
+
+variable "apps_domain" {
+  default     = ""
+  type        = "string"
+  description = "Passthrough value to used to configure the apps domain in a subsequent PAS deployment"
+}
+
+variable "tcp_domain" {
+  default     = ""
+  type        = "string"
+  description = "Passthrough value to used to configure the TCP domain in a subsequent PAS deployment"
 }
 
 variable "nsxt" {
