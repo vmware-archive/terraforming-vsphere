@@ -5,3 +5,7 @@ provider "vsphere" {
 
   allow_unverified_ssl = "${var.allow_unverified_ssl}"
 }
+
+terraform {
+  required_version = "< 0.12.0"
+}
