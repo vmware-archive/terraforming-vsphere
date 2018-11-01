@@ -48,6 +48,7 @@ output "deployment_network_dns" {
 
 output "deployment_network_gateway" {
   value = "${var.nsxt ? module.nsxt.deployment_gateway : ""}"
+}
 
 output "ops_manager_dns" {
   value = "${var.om_custom_hostname}"
