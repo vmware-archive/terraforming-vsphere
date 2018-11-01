@@ -53,7 +53,7 @@ resource "vsphere_virtual_machine" "vm" {
     properties {
       ip0             = "${var.nsxt ? "10.0.1.10" : var.om_ipv4_address}"
       gateway         = "${var.om_gateway}"
-      netmask0        = "${var.om_netmask0}"
+      netmask0        = "${cidrnetmask(var.subnet_cidr)}"
       gateway         = "${var.om_gateway}"
       DNS             = "${var.om_DNS}"
       ntp_servers     = "${var.om_ntp_servers}"
