@@ -1,0 +1,64 @@
+resource_types:
+- name: terraform
+  type: docker-image
+  source:
+    repository: ljfranklin/terraform-resource
+    tag: beta-backend
+
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+- name: terraforming-vsphere
+  type: git
+  source:
+    branch: master
+    uri: git@github.com:pivotal-cf/terraforming-vsphere.git
+    private_key: ((cf_infra_bot_github_user.private_key))
+
+- name: infrastructure-ci
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/cloudfoundry/infrastructure-ci.git
+
+shared:
+- params: &om-creds
+    OM_USERNAME: ((om.username))
+    OM_PASSWORD: ((om.password))
+
+jobs:
+- name: terraforming-vsphere
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: terraforming-vsphere
+      trigger: true
+    - get: ci
+      resource: infrastructure-ci
+  - task: apply-and-destroy
+    file: ci/scripts/terraforming/vsphere/task.yml
+    tags: [khaleesi]
+    params:
+      VSPHERE_NETWORK: ((vsphere_network_name))
+      VSPHERE_SUBNET_CIDR: ((vsphere_subnet))
+      VSPHERE_OM_IP: ((vsphere_om_ip))
+      VSPHERE_OM_DNS: ((vsphere_om_dns))
+      VSPHERE_OM_NTP: ((vsphere_om_ntp))
+      VSPHERE_OM_TEMPLATE: ((vsphere_om_template))
+      VSPHERE_OM_ADMIN_PASSWORD: ((vsphere_om_admin_password))
+      VSPHERE_GW_IP: ((vsphere_gw_ip))
+      VSPHERE_VCENTER_IP: ((vsphere_vcenter_ip))
+      VSPHERE_VCENTER_USER: ((vsphere_vcenter_user))
+      VSPHERE_VCENTER_PASSWORD: ((vsphere_vcenter_password))
+      VSPHERE_VCENTER_DC: ((vsphere_vcenter_dc))
+      VSPHERE_VCENTER_CLUSTER: ((vsphere_vcenter_cluster))
+      VSPHERE_VCENTER_RP: ((vsphere_vcenter_rp))
+      VSPHERE_VCENTER_DS: ((vsphere_vcenter_ds))
+      VSPHERE_VCENTER_DISKS: ((vsphere_vcenter_disks))
+      VSPHERE_VCENTER_VMS: ((vsphere_vcenter_vms))
+      VSPHERE_VCENTER_TEMPLATES: ((vsphere_vcenter_templates))
