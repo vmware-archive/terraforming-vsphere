@@ -42,7 +42,7 @@ jobs:
       resource: infrastructure-ci
   - task: apply-and-destroy
     file: ci/scripts/terraforming/vsphere/task.yml
-    tags: [khaleesi]
+    tags: [vsphere]
     params:
       VSPHERE_NETWORK: ((vsphere_network_name))
       VSPHERE_SUBNET_CIDR: ((vsphere_subnet))
