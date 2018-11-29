@@ -52,11 +52,6 @@ variable "om_admin_password" {
   type    = "string"
 }
 
-variable "subnet_cidr" {
-  default = ""
-  type    = "string"
-}
-
 variable "om_ntp_servers" {
   default = "time.nist.gov"
   type    = "string"
@@ -68,6 +63,26 @@ variable "om_custom_hostname" {
 }
 
 variable "om_gateway" {
+  default = ""
+  type    = "string"
+}
+
+variable "om_template" {
+  default = ""
+  type    = "string"
+}
+
+variable "om_disks" {
+  default = ""
+  type    = "string"
+}
+
+variable "om_vmdk" {
+  default = ""
+  type    = "string"
+}
+
+variable "subnet_cidr" {
   default = ""
   type    = "string"
 }
@@ -84,21 +99,6 @@ variable "vcenter_vms" {
 }
 
 variable "vcenter_templates" {
-  default = ""
-  type    = "string"
-}
-
-variable "om_template" {
-  default = ""
-  type    = "string"
-}
-
-variable "om_disks" {
-  default = ""
-  type    = "string"
-}
-
-variable "om_vmdk" {
   default = ""
   type    = "string"
 }
