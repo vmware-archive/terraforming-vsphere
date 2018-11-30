@@ -3,7 +3,7 @@ output "iaas" {
 }
 
 output "om" {
-  value = "${vsphere_virtual_machine.vm.name}"
+  value = "${element(concat(vsphere_virtual_machine.vm.*.name, list("")), 0)}"
 }
 
 output "om_ipv4_address" {

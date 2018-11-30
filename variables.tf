@@ -36,6 +36,11 @@ variable "vcenter_ds" {
   type = "string"
 }
 
+variable "om_vm" {
+  default     = true
+  description = "if set to false, terraform won't create an Ops Manager VM"
+}
+
 variable "om_ipv4_address" {
   default     = ""
   description = "opsman's IP from the outside. If using NSX-T, OM will see it's own IP as 10.0.1.10"

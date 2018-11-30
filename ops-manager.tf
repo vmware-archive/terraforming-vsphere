@@ -27,6 +27,8 @@ resource "vsphere_virtual_machine" "vm" {
   resource_pool_id = "${data.vsphere_resource_pool.pool.id}"
   datastore_id     = "${data.vsphere_datastore.ds.id}"
 
+  count = "${var.om_vm ? 1 : 0}"
+
   num_cpus = 2
   memory   = 8192
   guest_id = "${data.vsphere_virtual_machine.om_template.guest_id}"
