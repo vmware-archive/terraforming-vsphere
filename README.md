@@ -60,7 +60,7 @@ om_admin_password     = "some-password"
 om_custom_hostname    = "some-hostname"
 vcenter_network       = "some-network"
 vcenter_vms           = "some-parent-folder/some-vms-folder"
-om_template           = "some-templates-folder"
+om_template           = "some-ops-manager-template"
 ```
 
 ### Var Details
