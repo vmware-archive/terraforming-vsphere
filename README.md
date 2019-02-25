@@ -103,7 +103,7 @@ terraform apply
 
 ### Tearing down environment
 
-**Note:** This will only destroy resources deployed by Terraform. You will need to clean up anything deployed on top of that infrastructure yourself (e.g. by running `om delete-installation`)
+**Note:** This will only destroy resources deployed by Terraform. You will need to clean up anything deployed on top of that infrastructure yourself. On a vanilla vSphere deployment, running `om delete-installation` first will suffice. If you are using PAS with NSX-T, in order to clean up all NSX-T resources you will need to run `cf delete-org $orgname` for every org in your CF deployment.
 
 ```bash
 terraform destroy
