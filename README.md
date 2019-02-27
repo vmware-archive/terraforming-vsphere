@@ -1,4 +1,4 @@
-# Terraforming vSphere [![build-status](https://infra.ci.cf-app.com/api/v1/teams/main/pipelines/terraforming/jobs/terraforming-vsphere/badge)](https://infra.ci.cf-app.com/teams/main/pipelines/terraforming/jobs/terraforming-vsphere)
+# Terraforming vSphere [![build-status](https://infra.ci.cf-app.com/api/v1/teams/main/pipelines/terraforming-vsphere/jobs/terraforming-vsphere/badge)](https://infra.ci.cf-app.com/teams/main/pipelines/terraforming/jobs/terraforming-vsphere)
 
 Please note that the master branch is generally *unstable*.
 If you are looking for something "tested", please consume one
