@@ -1,32 +1,89 @@
-== Deploying an standalone NSX-T network for future manual opsman OVA deploys ==
+### Pre-requisites:
+* NSX-T Manager deployed
+* NSX-T Edge Cluster deployed
+* An East-West Transport Zone created (e.g. `overlay-tz`)
+* Tier-0 Router created and attached to North-South transport zone,
+  most importantly, you should be able to ping the `external_ip_pool_gateway`
+  from your workstation
+* A DNS entry which resolves to your Operation Manager's IP address (e.g. `om.example.com` resolves to `10.195.74.16`)
 
-1. Provision a T0 router for your environment. At the moment, we do not support multiple environments on one T0 router as their NAT rules will conflict.
+### Quick Start
 
-1. Fill in terraform.tfvars in this directory as appropriate.
+Download the NSX-T Terraform provider:
+```
+terraform init
+```
 
-1. Use terraform to deploy your NSX-T network resources:
-   ```
-   pushd nsxt
-   terraform apply
-   ```
+Create and customize a file named `terraform.tfvars` using the following contents as a template:
+```
+nsxt_username = "admin"
+nsxt_password = "a_secret_password"
+nsxt_host = "nsxmgr.domain.tld"
 
-1. If you log in to your vCenter console, you should be able to find the opaque networks you just created under the Navigator's "Networking" tab.
+env_name = "environment_name" # An identifier used to tag resources; examples: dev, EMEA, prod
+east_west_transport_zone_name = "overlay-tz"
 
-1. Follow [the pcf docs](https://docs.pivotal.io/pivotalcf/2-1/customizing/deploying-vm.html)
-   to upload an opsman OVA. When it prompts you for a network, do not select any NSX-T logical switch, including the ones you've just created.
-   Instead, you should select any available distributed port group. This is a workaround for a known bug in the vCenter console's upload dialogues.
-   When prompted for an IP address, use 10.0.1.10.
-   When you reach the step to select "Power on after deployment," skip it and hit finish.
+# Routers
+nsxt_edge_cluster_name = "edge-cluster-1"
+nat_gateway_ip = "10.195.74.251"
+om_ip = "10.195.74.16"
 
-1. After your OVA is done uploading, select it in the vCenter navigator, then click "Actions -> Edit Settings".
-   Select the opaque network returned by `terraform output`, then power on your VM.
+# Each PAS Org will draw an IP address from this pool; make sure you have enough
+# Your LB Virtual Servers, gateway, NAT gateway, OM should be in the CIDR but not in the available range
+external_ip_pool_cidr    = "10.195.74.0/24"
+external_ip_pool_ranges  = ["10.195.74.128-10.195.74.250"]
+external_ip_pool_gateway = "10.195.74.1"
 
-1. Set up a DNS entry for `terraform output om_ipv4_address`, then log in to your opsman at that domain.
+# LBs
+nsxt_lb_web_virtual_server_ip_address = "10.195.74.17"
+nsxt_lb_tcp_virtual_server_ip_address = "10.195.74.19"
+nsxt_lb_ssh_virtual_server_ip_address = "10.195.74.18"
 
-1. Follow along with the PCF documentation to [deploy a bosh director](https://docs.pivotal.io/pivotalcf/2-1/customizing/vsphere-config.html), but with the following extra changes:
-  1. Under vCenter Config, enable NSX networking, NSX-T Mode, and supply your nsx-t address, username, and password from terraform.tfvars.
-  1. When prompted to enter networks, use the subnets and gateways from `terraform output`. BOSH must be deployed into the infrastructure subnet and PAS into the deployment subnet for routing to work.
-  1. `10.0.1.1-10.0.1.10` should be reserved in the infrastructure subnet, but only `10.0.2.1` need be reserved in the PAS deployment subnet.
+nsxt_lb_tcp_virtual_server_ports = ["8080", "52135", "34000-35000"]
 
-1. Follow along with the PCF documentation to [deploy PAS](https://docs.pivotal.io/pivotalcf/2-1/customizing/config-er-vmware.html), but also do the following:
-  1. Under Networking, supply `10.0.2.2` as the HAProxy IP, as we rely on it to simplify NAT for the CF routing layer.
+
+
+
+# Optional Variables
+# These variables have reasonable default values.
+# if your foundation setup is tricky, you may need to set different values.
+allow_unverified_ssl = true  # set to true if NSX manager's TLS cert is self-signed
+nsxt_lb_web_virtual_server_ports = ["80", "443"]
+nsxt_lb_ssh_virtual_server_ports = ["2222"]
+```
+Run terraform:
+```bash
+terraform plan
+terraform apply
+```
+
+
+If you log in to your vCenter console, you should be able to find the opaque
+networks `PAS-Infrastructure` and `PAS-Deployment` under the Navigator's "Networking" tab.
+
+1. Follow [the pcf
+   docs](https://docs.pivotal.io/pivotalcf/2-4/customizing/deploying-vm.html) to
+   upload an opsman OVA. When it prompts you for a network, Select the opaque network
+   `PAS-Infrastructure`.  When prompted for an
+   IP address, use `192.168.1.10`.  When you reach the step to select "Power on after
+   deployment," click yes and hit finish.
+
+1. Follow along with the PCF documentation to [deploy a bosh
+   director](https://docs.pivotal.io/pivotalcf/2-4/customizing/vsphere-config.html),
+   but with the following changes:
+
+  1. Under vCenter Config, enable `NSX networking → NSX-T Mode`, and supply your
+     `nsxt_host`, `nsxt_username`, and `nsxt_password` from `terraform.tfvars`.
+
+  1. When prompted to enter networks, use the values:
+
+       |  | Infrastructure | Deployment |
+       |---|---|---|
+       | vSphere Network Name | `PAS-Infrastructure` | `PAS-Deployment` |
+       | CIDR | `192.168.1.0/24` |  `192.168.2.0/24` |
+       | Gateway |  `192.168.1.1` | `192.168.2.1` |
+       | Reserved IP Ranges | `192.168.1.1-192.168.1.10` | `192.168.2.1` |
+
+1. Follow along with the PCF documentation to [deploy
+   PAS](https://docs.pivotal.io/pivotalcf/2-4/customizing/config-er-vmware.html),
+   but also do the following:
