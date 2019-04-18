@@ -44,6 +44,19 @@ variable "external_ip_pool_gateway" {
   description = "The gateway for the External IP Pool, e.g. `10.195.74.1`"
   type        = "string"
 }
+
+variable "container_ip_block_name" {
+  default     = "PAS-container-ip-block"
+  description = "The name of the IP block from which subnets are allocated to each newly-created Org"
+  type        = "string"
+}
+
+variable "container_ip_block_cidr" {
+  default     = "10.12.0.0/14"
+  description = "The CIDR of the container IP Block, e.g. `10.12.0.0/14`"
+  type        = "string"
+}
+
 # }
 
 # Logical Routers + Switches {

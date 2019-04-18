@@ -258,4 +258,10 @@ resource "nsxt_ip_pool" "external_ip_pool" {
     tag   = "${var.env_name}"
   }
 }
+
+resource "nsxt_ip_block" "container_ip_block" {
+  description  = "Subnets are allocated from this pool to each newly-created Org"
+  display_name = "${var.container_ip_block_name}"
+  cidr         = "${var.container_ip_block_cidr}"
+}
 # }
