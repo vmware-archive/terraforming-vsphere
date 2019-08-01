@@ -38,6 +38,8 @@ Refer to [vSphere Terraform Provider documentation](https://www.terraform.io/doc
 
 ### Var File
 
+*Note:* If you're using Platform Automation, be sure to exclude [these variables](/README.md#var-details): `om_template` and `om_custom_hostname`. If you create your Ops Manager here, you will not be able to manage it with [Platform Automation](docs.pivotal.io/platform-automation).
+
 Copy the stub content below into a file called `terraform.tfvars` and put it in the root of this project.
 These vars will be used when you run `terraform  apply`.
 You should fill in the stub values with the correct content.
