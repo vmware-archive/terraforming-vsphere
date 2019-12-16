@@ -25,11 +25,6 @@ resources:
     branch: master
     uri: https://github.com/cloudfoundry/infrastructure-ci.git
 
-shared:
-- params: &om-creds
-    OM_USERNAME: ((om.username))
-    OM_PASSWORD: ((om.password))
-
 jobs:
 - name: terraforming-vsphere
   serial: true
